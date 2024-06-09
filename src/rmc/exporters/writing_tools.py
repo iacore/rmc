@@ -46,6 +46,7 @@ class Pen:
         self.name = "Basic Pen"
         # initial stroke values
         self.stroke_linecap = "round"
+        self.stroke_linejoin = "round"
         self.stroke_opacity = 1
         self.stroke_width = base_width
         self.stroke_color = base_color_id
@@ -121,7 +122,8 @@ class Pen:
 class Fineliner(Pen):
     def __init__(self, base_width, base_color_id):
         super().__init__(base_width, base_color_id)
-        self.base_width = (base_width ** 2.1) * 1.3
+        self.base_width = (base_width * 1.5)
+        # todo: calculate this better
         self.name = "Fineliner"
 
 

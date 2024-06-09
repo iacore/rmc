@@ -37,15 +37,6 @@ SCREEN_HEIGHT = 1872
 
 SVG_HEADER = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" height="$height" width="$width">
-    <script type="application/ecmascript"> <![CDATA[
-        var visiblePage = 'p1';
-        function goToPage(page) {
-            document.getElementById(visiblePage).setAttribute('style', 'display: none');
-            document.getElementById(page).setAttribute('style', 'display: inline');
-            visiblePage = page;
-        }
-    ]]>
-    </script>
 """)
 
 
@@ -83,7 +74,6 @@ def blocks_to_svg(blocks: Iterable[Block], output, debug=0):
 
     # add svg page info
     output.write('    <g id="p1" style="display:inline">\n')
-    output.write('        <filter id="blurMe"><feGaussianBlur in="SourceGraphic" stdDeviation="10" /></filter>\n')
 
     for block in blocks:
         if isinstance(block, SceneLineItemBlock):
@@ -122,6 +112,7 @@ def draw_stroke(block, output, svg_doc_info, debug):
     output.write('        <polyline ')
     output.write(f'style="fill:none;stroke:{pen.stroke_color};stroke-width:{pen.stroke_width};opacity:{pen.stroke_opacity}" ')
     output.write(f'stroke-linecap="{pen.stroke_linecap}" ')
+    output.write(f'stroke-linejoin="{pen.stroke_linejoin}" ')
     output.write('points="')
 
     last_xpos = -1.
@@ -151,6 +142,7 @@ def draw_stroke(block, output, svg_doc_info, debug):
             output.write('        <polyline ')
             output.write(f'style="fill:none; stroke:{segment_color} ;stroke-width:{segment_width:.3f};opacity:{segment_opacity}" ')
             output.write(f'stroke-linecap="{pen.stroke_linecap}" ')
+            output.write(f'stroke-linejoin="{pen.stroke_linejoin}" ')
             output.write('points="')
             if last_xpos != -1.:
                 # Join to previous segment
